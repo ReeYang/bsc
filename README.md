@@ -1,0 +1,2 @@
+# bsc
+business school community
