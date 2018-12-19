@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.bsc.modules.interaction.dao.InteractDao">
+
+    <resultMap id="getInteract" type="com.bsc.modules.interaction.entity.Interact">
+        <id property="id" column="id"/>
+        <result property="post.id" column="postID"/>
+        <result property="user.id" column="userID"/>
+        <result property="time" column="time"/>
+        <result property="type" column="type"/>
+        <result property="content" column="content"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO
+        interaction(postID,userID,,time,type,content)
+        VALUES(#{postID},#{userID},#{time},#{type},#{content});
+    </insert>
+    <update id="update">
+        UPDATE interaction
+        <set>
+            <if test="postID!= null and postID != ''">
+                postID= #{postID},
+            </if>
+            <if test="userID!= null and userID != ''">
+                userID= #{userID},
+            </if>
+            <if test="time!= null and time != ''">
+                time= #{time},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM interaction WHERE id=#{id}
+    </delete>
+
+    <select id="get" resultMap="getInteract">
+        SELECT * FROM interaction WHERE id = #{id}
+    </select>
+
+    <select id="getT" resultMap="getInteract">
+        select * from interaction
+        <where>
+            <if test="postID!= null and postID != ''">
+                and  postID= #{postID},
+            </if>
+            <if test="userID!= null and userID != ''">
+                and userID= #{userID},
+            </if>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+
+    <select id="findList" resultMap="getInteract">
+        SELECT * FROM interaction
+        <where>
+            <if test="postID != null and postID != ''">
+                AND postID LIKE concat('%', #{postID}, '%')
+            </if>
+            <if test="userID != null and userID != ''">
+                AND userID LIKE concat('%', #{userID}, '%')
+            </if>
+            <if test="time != null and time != ''">
+                AND time LIKE concat('%', #{time}, '%')
+            </if>
+            <if test="type != null and type != ''">
+                AND type LIKE concat('%', #{type}, '%')
+            </if>
+            <if test="content != null and content != ''">
+                AND content LIKE concat('%', #{content}, '%')
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+    <select id="findAllList" resultMap="getInteract">
+        SELECT * FROM interaction ORDER BY id DESC
+    </select>
+
+</mapper>

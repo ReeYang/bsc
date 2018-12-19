@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.bsc.modules.topic.dao.TopicMapper">
+
+    <resultMap id="getTopic" type="com.bsc.modules.topic.entity.Topic">
+        <id property="id" column="id"/>
+        <result property="section.id" column="moID"/>
+        <result property="post.id" column="postID"/>
+        <result property="title" column="title"/>
+        <result property="num" column="num"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO
+        topic(moID,postID,title,num)
+        VALUES(#{section.id},#{post.id},#{title},#{num});
+    </insert>
+    <update id="update">
+        UPDATE topic
+        <set>
+            <if test="section!=null and section.id!= null and section.id != ''">
+                moID= #{section.id},
+            </if>
+            <if test="post!=null and post.id!= null and post.id != ''">
+                postID= #{post.id},
+            </if>
+            <if test="title!= null and title != ''">
+                title= #{title},
+            </if>
+            <if test="num != null and num != ''">
+                num = #{num}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM topic WHERE id=#{id}
+    </delete>
+
+    <select id="get" resultMap="getTopic">
+        SELECT * FROM topic WHERE id = #{id}
+    </select>
+
+    <select id="getT" resultMap="getTopic">
+        select * from topic
+        <where>
+            <if test="section!=null and section.id!= null and section.id != ''">
+                AND moID= #{section.id}
+            </if>
+            <if test="post!=null and post.id!= null and post.id != ''">
+                AND  postID= #{post.id}
+            </if>
+            <if test="title != null and title != ''">
+                AND  title = #{title}                                 <!--后面不能加逗号？？-->
+            </if>
+            <if test="num != null and num != ''">
+                AND num = #{num}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+
+    <select id="findList" resultMap="getTopic">
+        SELECT * FROM topic
+        <where>
+            <if test="section!=null and section.id!= null and section.id!= ''">
+                AND  moID=#{section.id}
+            </if>
+            <if test="post!=null and post.id!= null and post.id!= ''">
+                AND  postID = #{post.id}
+            </if>
+            <if test="title != null and title != ''">
+                AND title = #{title}
+            </if>
+            <if test="num != null and num != ''">
+                AND num = #{num}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+    <select id="findAllList" resultMap="getTopic">
+        SELECT * FROM topic ORDER BY id DESC
+    </select>
+</mapper>

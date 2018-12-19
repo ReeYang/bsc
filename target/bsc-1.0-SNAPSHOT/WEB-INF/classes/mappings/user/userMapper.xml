@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.bsc.modules.user.dao.UserMapper">
+    <insert id="insert">
+        insert into user(NUMBER,TYPE,password,nickName,photo,academy,introduction,tel,wechat,qq,noticeID)
+        VALUES (#{NUMBER},#{TYPE},#{password},#{nickName},#{photo},#{academy},#{introduction},#{tel},#{wechat},#{qq},#{noticeID})
+    </insert>
+
+    <update id="update">
+        update USER
+        <set>
+            <if test="number != null and number != ''">
+                NUMBER = #{number},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nickName = #{nickName},
+            </if>
+            <if test="photo != null and photo != ''">
+                photo = #{photo},
+            </if>
+            <if test="academy != null and academy != ''">
+                academy = #{academy},
+            </if>
+            <if test="introduction != null and introduction != ''">
+                introduction = #{introduction},
+            </if>
+            <if test="tel != null and tel != ''">
+                tel = #{tel},
+            </if>
+            <if test="wechat != null and wechat != ''">
+                wechat = #{wechat},
+            </if>
+            <if test="qq != null and qq != ''">
+                qq = #{qq},
+            </if>
+            <if test="noticeID != null and noticeID != ''">
+                noticeID = #{noticeID},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from USER where id = #{id};
+    </delete>
+
+    <select id="get" resultType="com.bsc.modules.user.entity.User">
+        select * from USER where id = #{id}
+    </select>
+
+    <select id="getT" resultType="com.bsc.modules.user.entity.User">
+        select * from USER
+        <where>
+            <if test="number != null and number != ''">
+                and NUMBER = #{number}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="nickName != null and nickName != ''">
+                and nickName = #{nickName}
+            </if>
+            <if test="photo != null and photo != ''">
+                and photo = #{photo}
+            </if>
+            <if test="academy != null and academy != ''">
+                and academy = #{academy}
+            </if>
+            <if test="introduction != null and introduction != ''">
+                and introduction = #{introduction}
+            </if>
+            <if test="tel!= null and tel != ''">
+                and tel = #{tel}
+            </if>
+            <if test="wechat != null and wechat != ''">
+                and wechat = #{wechat}
+            </if>
+            <if test="qq != null and qq != ''">
+                and qq = #{qq}
+            </if>
+            <if test="noticeID != null and noticeID != ''">
+                and noticeID = #{noticeID}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="findList" resultType="com.bsc.modules.user.entity.User">
+        select * from USER
+        <where>
+            <if test="number != null and number != ''">
+                and NUMBER = #{number}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="nickName != null and nickName != ''">
+                and nickName = #{nickName}
+            </if>
+            <if test="photo != null and photo != ''">
+                and photo = #{photo}
+            </if>
+            <if test="academy != null and academy != ''">
+                and academy = #{academy}
+            </if>
+            <if test="introduction != null and introduction != ''">
+                and introduction = #{introduction}
+            </if>
+            <if test="tel!= null and tel != ''">
+                and tel = #{tel}
+            </if>
+            <if test="wechat != null and wechat != ''">
+                and wechat = #{wechat}
+            </if>
+            <if test="qq != null and qq != ''">
+                and qq = #{qq}
+            </if>
+            <if test="noticeID != null and noticeID != ''">
+                and noticeID = #{noticeID}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAllList" resultType="com.bsc.modules.user.entity.User">
+        select * from USER order by ID desc
+    </select>
+</mapper>

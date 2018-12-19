@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.bsc.modules.mail.dao.MailMapper">
+    <insert id="insert">
+        insert into mail(senderID, receiverID,time,content)
+        values (#{senderID}, #{receiverID}, #{time}, #{content})
+    </insert>
+
+    <update id="update">
+        update mail
+        <set>
+            <if test="senderID != null and senderID != ''">
+                senderID = #{senderID},
+            </if>
+            <if test="receiverID != null and receiverID != ''">
+                receiverID = #{receiverID},
+            </if>
+            <if test="time != null and time != ''">
+                time = #{time},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from mail where id = #{id};
+    </delete>
+
+    <select id="get" resultType="com.bsc.modules.mail.entity.Mail">
+        select * from mail where id = #{id}
+    </select>
+
+    <select id="getT" resultType="com.bsc.modules.mail.entity.Mail">
+        select * from mail
+        <where>
+            <if test="senderID != null and senderID != ''">
+                and senderID = #{senderID}
+            </if>
+            <if test="receiverID != null and receiverID != ''">
+                and receiverID = #{receiverID}
+            </if>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="findList" resultType="com.bsc.modules.mail.entity.Mail">
+        select * from mail
+        <where>
+            <if test="senderID != null and senderID != ''">
+                and senderID = #{senderID}
+            </if>
+            <if test="receiverID != null and receiverID != ''">
+                and receiverID = #{receiverID}
+            </if>
+            <if test="time != null and time != ''">
+                and time = #{time}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAllList" resultType="com.bsc.modules.mail.entity.Mail">
+        select * from mail order by ID desc
+    </select>
+</mapper>
