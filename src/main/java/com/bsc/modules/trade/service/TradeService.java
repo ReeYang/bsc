@@ -1,5 +1,6 @@
 package com.bsc.modules.trade.service;
 import com.bsc.common.persistence.CrudService;
+import com.bsc.modules.post.service.PostService;
 import com.bsc.modules.trade.dao.TradeMapper;
 import com.bsc.modules.trade.entity.Trade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,15 @@ import java.util.List;
 public class TradeService extends CrudService<TradeMapper, Trade> {
 
     @Autowired
-    private TradeMapper postMapper;
+    private TradeMapper tradeMapper;
+    @Autowired
+    private PostService postService;
 
     @Override
     public Trade get(int id) {
-        return super.get(id);
+        Trade trade=tradeMapper.get(id);
+        trade.setPost(postService.get(trade.getPost().getId()));//service重写后的get
+        return trade;
     }
 
     @Override
@@ -31,7 +36,11 @@ public class TradeService extends CrudService<TradeMapper, Trade> {
 
     @Override
     public List<Trade> findList(Trade entity) {
-        return super.findList(entity);
+        List<Trade> tradeList = tradeMapper.findList(entity);
+        for(int i = 0; i < tradeList.size(); i ++){
+            tradeList.set(i, get(tradeList.get(i).getId()));
+        }
+        return tradeList;
     }
 
     @Override
@@ -48,7 +57,6 @@ public class TradeService extends CrudService<TradeMapper, Trade> {
     public int delete(int id) {
         return super.delete(id);
     }
-
     @Override
     public int deleteAll(int[] ids) {
         return super.deleteAll(ids);

@@ -2,22 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--命名空间应该是对应接口的包名+接口名 -->
 <mapper namespace="com.bsc.modules.user.dao.UserMapper">
-    <insert id="insert">
-        insert into user(NUMBER,TYPE,password,nickName,photo,academy,introduction,tel,wechat,qq,noticeID)
-        VALUES (#{NUMBER},#{TYPE},#{password},#{nickName},#{photo},#{academy},#{introduction},#{tel},#{wechat},#{qq},#{noticeID})
-    </insert>
 
+    <resultMap id="getUser" type="com.bsc.modules.user.entity.User">
+        <id property="id" column="id"/>             <!--column表示的是数据表里的字段-->
+        <result property="number" column="number"/>
+        <result property="type" column="type"/>
+        <result property="password" column="password"/>
+        <result property="nickName" column="nickName"/>
+        <result property="photo" column="photo"/>
+        <result property="academy" column="academy"/>
+        <result property="introduction" column="introduction"/>
+        <result property="tel" column="tel"/>
+        <result property="wechat" column="wechat"/>
+        <result property="qq" column="qq"/>
+        <result property="notice.id" column="noticeId"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO
+        user(number,type,password,nickName,photo,academy,introduction,tel,wechat,qq,noticeId)
+        VALUES(#{number},#{type},#{password},#{nickName},#{photo},
+        #{academy},#{introduction},#{tel},#{wechat},#{qq},#{notice.id});          <!--怎样向notice数组中插入一个对象-->
+    </insert>
     <update id="update">
-        update USER
+        UPDATE user
         <set>
-            <if test="number != null and number != ''">
-                NUMBER = #{number},
+            <if test="number!= null and number != ''">
+                number= #{number},
             </if>
-            <if test="type != null and type != ''">
-                type = #{type},
+            <if test="type!= null and type != ''">
+                type= #{type},
             </if>
-            <if test="password != null and password != ''">
-                password = #{password},
+            <if test="password!= null and password != ''">
+                password= #{password},
             </if>
             <if test="nickName != null and nickName != ''">
                 nickName = #{nickName},
@@ -40,101 +57,110 @@
             <if test="qq != null and qq != ''">
                 qq = #{qq},
             </if>
-            <if test="noticeID != null and noticeID != ''">
-                noticeID = #{noticeID},
+            <if test="notice!=null and notice.id!=null and notice.id != ''">
+                noticeId = #{notice.id},
             </if>
         </set>
         where id = #{id}
     </update>
 
     <delete id="delete">
-        delete from USER where id = #{id};
-    </delete>
+        DELETE FROM user WHERE id=#{id}
+    </delete>            <!--怎样从notice数组中删除一个对象-->
 
-    <select id="get" resultType="com.bsc.modules.user.entity.User">
-        select * from USER where id = #{id}
+    <select id="get" resultMap="getUser">
+        SELECT * FROM user WHERE id = #{id}
     </select>
 
-    <select id="getT" resultType="com.bsc.modules.user.entity.User">
-        select * from USER
+    <select id="getT" resultMap="getUser">
+        select * from user
         <where>
-            <if test="number != null and number != ''">
-                and NUMBER = #{number}
+            <if test="number!= null and number != ''">
+                number= #{number},
             </if>
-            <if test="type != null and type != ''">
-                and type = #{type}
+            <if test="type!= null and type != ''">
+                and type= #{type},
             </if>
-            <if test="password != null and password != ''">
-                and password = #{password}
+            <if test="password!= null and password != ''">
+               and password= #{password},
             </if>
             <if test="nickName != null and nickName != ''">
-                and nickName = #{nickName}
+               and nickName = #{nickName},
             </if>
             <if test="photo != null and photo != ''">
-                and photo = #{photo}
+               and photo = #{photo},
             </if>
             <if test="academy != null and academy != ''">
-                and academy = #{academy}
+               and academy = #{academy},
             </if>
             <if test="introduction != null and introduction != ''">
-                and introduction = #{introduction}
+               and introduction = #{introduction},
             </if>
-            <if test="tel!= null and tel != ''">
-                and tel = #{tel}
+            <if test="tel != null and tel != ''">
+               and tel = #{tel},
             </if>
             <if test="wechat != null and wechat != ''">
-                and wechat = #{wechat}
+               and wechat = #{wechat},
             </if>
             <if test="qq != null and qq != ''">
-                and qq = #{qq}
+                and qq = #{qq},
             </if>
-            <if test="noticeID != null and noticeID != ''">
-                and noticeID = #{noticeID}
+            <if test="notice !=null and notice.id != null and notice.id != ''">
+                and noticeId= #{notice.id},
             </if>
         </where>
         order by id desc
     </select>
 
-    <select id="findList" resultType="com.bsc.modules.user.entity.User">
-        select * from USER
+
+    <select id="findList" resultMap="getUser">
+        SELECT * FROM user
         <where>
-            <if test="number != null and number != ''">
-                and NUMBER = #{number}
+            <if test="number!= null and number != ''">
+                AND number LIKE concat('%', #{number}, '%')
             </if>
-            <if test="type != null and type != ''">
-                and type = #{type}
+            <if test="type!= null and type != ''">
+                AND type LIKE concat('%', #{type}, '%')
             </if>
-            <if test="password != null and password != ''">
-                and password = #{password}
+            <if test="password!= null and password != ''">
+                AND password LIKE concat('%', #{password}, '%')
             </if>
             <if test="nickName != null and nickName != ''">
-                and nickName = #{nickName}
+                AND nickName LIKE concat('%', #{nickName}, '%')
             </if>
             <if test="photo != null and photo != ''">
-                and photo = #{photo}
-            </if>
+                AND photo LIKE concat('%', #{photo}, '%')
+        </if>
             <if test="academy != null and academy != ''">
-                and academy = #{academy}
+                AND academy LIKE concat('%', #{academy}, '%')
             </if>
             <if test="introduction != null and introduction != ''">
-                and introduction = #{introduction}
+                AND introduction LIKE concat('%', #{introduction}, '%')
             </if>
-            <if test="tel!= null and tel != ''">
-                and tel = #{tel}
+            <if test="tel != null and tel != ''">
+                AND tel LIKE concat('%', #{tel}, '%')
             </if>
             <if test="wechat != null and wechat != ''">
-                and wechat = #{wechat}
+                AND wechat LIKE concat('%', #{wechat}, '%')
             </if>
             <if test="qq != null and qq != ''">
-                and qq = #{qq}
+                AND qq LIKE concat('%', #{qq}, '%')
             </if>
-            <if test="noticeID != null and noticeID != ''">
-                and noticeID = #{noticeID}
+            <if test="notice !=null and notice.id != null and notice.id != ''">
+                AND noticeId LIKE concat('%', #{notice.id}, '%')
             </if>
         </where>
+        ORDER BY id DESC
+    </select>
+    <select id="findAllList" resultMap="getUser">
+        SELECT * FROM user ORDER BY id DESC
     </select>
 
-    <select id="findAllList" resultType="com.bsc.modules.user.entity.User">
-        select * from USER order by ID desc
+    <!--根据传递过来的unum和upass确认登录信息-->
+    <select id="getByNum" parameterType="String" resultMap="getUser">
+        SELECT * FROM  user
+        <where>
+            number=#{unum}
+        </where>
     </select>
 </mapper>

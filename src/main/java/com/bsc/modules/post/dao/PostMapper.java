@@ -3,7 +3,6 @@ package com.bsc.modules.post.dao;
 import com.bsc.common.annotation.MybatisDao;
 import com.bsc.common.persistence.CrudDao;
 import com.bsc.modules.post.entity.Post;
-
 import java.util.List;
 
 @MybatisDao

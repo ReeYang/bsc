@@ -1,0 +1,32 @@
+/* CSS Document */
+.text{
+border:0px;
+font-size:13px;
+}
+.ps{
+color:#999999;
+}
+.button{
+color:#FFFFFF;
+background-color:#42A0FF;
+border:hidden;
+font-weight:900;
+}
+.link{
+color:#FFFFFF;
+font-weight:700;
+}
+.simpleContent{
+    width:120px;
+    white-space:nowrap;
+    word-break:keep-all;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    font-weight: 600;
+}
+.a{
+    text-decoration: none;
+}
+.hr{
+    width: 150px;
+}

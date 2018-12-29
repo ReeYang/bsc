@@ -2,9 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--命名空间应该是对应接口的包名+接口名 -->
 <mapper namespace="com.bsc.modules.post.dao.PostMapper">
+    <resultMap id="getPost" type="com.bsc.modules.post.entity.Post"><!--id="唯一的标识" type="映射的pojo对象"-->
+        <id property="id" column="id"/><!--id column="表的主键字段，或者可以为查询语句中的别名字段"-->
+        <result property="user.id" column="userID"/><!--result column="任意表的一个字段"  property="映射到pojo对象的一个属性-->
+        <result property="title" column="title"/>
+        <result property="classify" column="classify"/>
+        <result property="time" column="time"/>
+        <result property="content" column="content"/>
+    </resultMap>
     <insert id="insert">
-        insert into student(userID, title, type,time,content)
-        values ( #{user.id}, #{title}, #{type},#{time},#{content})
+        insert into post(userID, title, classify,time,content)
+        values ( #{user.id}, #{title}, #{classify},#{time},#{content})
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
     <update id="update">
@@ -13,11 +24,11 @@
             <if test="user != null and user.id != null and user.id != ''">
                 userID = #{user.id},
             </if>
-            <if test="title != null and title != ''">
+            <if test="title != null and title != '' ">
                 title = #{title},
             </if>
-            <if test="type != null and type != ''">
-                type = #{type},
+            <if test="classify != null and classify != ''">
+                classify = #{classify},
             </if>
             <if test="time != null and time != ''">
                 time = #{time},
@@ -33,54 +44,54 @@
         delete from post where id = #{id};
     </delete>
 
-    <select id="get" resultType="com.bsc.modules.post.entity.Post">
+    <select id="get"  resultMap="getPost">
         select * from post where id = #{id}
     </select>
 
-    <select id="getT" resultType="com.bsc.modules.post.entity.Post">
+    <select id="getT" resultMap="getPost">
         select * from post
         <where>
             <if test="user != null and user.id != null and user.id != ''">
-                 userID = #{user.id},
+              AND   userID = #{user.id}
             </if>
             <if test="title != null and title != ''">
-                title = #{title},
+              and  title = #{title}
             </if>
-            <if test="type != null and type != ''">
-                type = #{type},
+            <if test="classify != null and classify != ''">
+              AND  classify = #{classify},
             </if>
             <if test="time != null and time != ''">
-                time = #{time},
+              AND  time = #{time}
             </if>
             <if test="content != null and content != ''">
-                content = #{content},
+            AND    content = #{content}
             </if>
         </where>
         order by id desc
     </select>
 
-    <select id="findList" resultType="com.bsc.modules.post.entity.Post">
+    <select id="findList" resultMap="getPost">
         select * from post
         <where>
             <if test="user != null and user.id != null and user.id != ''">
-              AND  userID = #{user.id},
+              AND  userID = #{user.id}
             </if>
             <if test="title != null and title != ''">
-              AND  title = #{title},
+              AND  title = #{title}
             </if>
-            <if test="type != null and type != ''">
-            AND    type = #{type},
+            <if test="classify != null and classify != ''">
+              AND  classify = #{classify},
             </if>
             <if test="time != null and time != ''">
-              AND  time = #{time},
+              AND  time = #{time}
             </if>
             <if test="content != null and content != ''">
-            AND    content = #{content},
+            AND    content = #{content}
             </if>
         </where>
     </select>
 
-    <select id="findAllList" resultType="com.bsc.modules.post.entity.Post">
+    <select id="findAllList" resultMap="getPost">
         select * from post order by ID desc
     </select>
 </mapper>

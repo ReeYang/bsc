@@ -2,9 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.bsc.modules.trade.dao.TradeMapper">
+    <resultMap id="getTrade" type="com.bsc.modules.trade.entity.Trade">
+        <id property="id" column="id"/>
+        <result property="label" column="label"/>
+        <result property="type" column="type"/>
+        <result property="oprice" column="oprice"/>
+        <result property="price" column="price"/>
+        <result property="information" column="information"/>
+        <result property="campus" column="campus"/>
+        <result property="photo" column="photo"/>
+        <result property="post.id" column="postID"/>
+    </resultMap>
     <insert id="insert">
-        insert into student(postID, label, type, oprice, price, information, campus)
-        values ( #{post.id}, #{label}, #{type},#{oprice},#{price}, #{information}, #{campus})
+        insert into trade(postID, label, type, oprice, price, information, campus,photo)
+        values ( #{post.id}, #{label}, #{type},#{oprice},#{price}, #{information}, #{campus},#{photo})
     </insert>
 
     <update id="update">
@@ -31,6 +42,9 @@
             <if test="campus != null and campus != ''">
                 campus = #{campus},
             </if>
+            <if test="photo != null and photo != ''">
+                photo = #{photo},
+            </if>
         </set>
         where id = #{id}
     </update>
@@ -39,66 +53,73 @@
         delete from trade where id = #{id};
     </delete>
 
-    <select id="get" resultType="com.bsc.modules.trade.entity.Trade">
+    <select id="get" resultMap="getTrade">
         select * from trade where id = #{id}
     </select>
 
-    <select id="getT" resultType="com.bsc.modules.trade.entity.Trade">
+    <select id="getT" resultMap="getTrade">
         select * from trade
         <where>
             <if test="post != null and post.id != null and post.id != ''">
-                 postID = #{post.id},
+             AND    postID = #{post.id}
             </if>
             <if test="label != null and label != ''">
-                label = #{label},
+            AND    label = #{label}
             </if>
             <if test="type != null and type != ''">
-                type = #{type},
+              AND  type = #{type}
             </if>
             <if test="oprice != null and oprice != ''">
-                oprice = #{oprice},
+             AND   oprice = #{oprice}
             </if>
             <if test="price != null and price != ''">
-                price = #{price},
+             AND   price = #{price}
             </if>
             <if test="information != null and information != ''">
-                information = #{information},
+             AND   information = #{information}
             </if>
             <if test="campus != null and campus != ''">
-                campus = #{campus},
+             AND  campus = #{campus}
+            </if>
+            <if test="photo != null and photo != ''">
+                AND  photo = #{photo}
             </if>
         </where>
         order by id desc
     </select>
 
-    <select id="findList" resultType="com.bsc.modules.trade.entity.Trade">
+    <select id="findList" resultMap="getTrade">
         select * from trade
         <where>
             <if test="post != null and post.id != null and post.id != ''">
-              AND  postID = #{post.id},
+              AND  postID = #{post.id}
             </if>
             <if test="label != null and label != ''">
-              AND  label = #{label},
+              AND  label = #{label}
             </if>
             <if test="type != null and type != ''">
-               AND type = #{type},
+              AND type = #{type}
             </if>
             <if test="oprice != null and oprice != ''">
-              AND  oprice = #{oprice},
+              AND  oprice = #{oprice}
             </if>
             <if test="price != null and price != ''">
-               AND  price = #{price},
+              AND  price = #{price}
             </if>
             <if test="information != null and information != ''">
-               AND information = #{information},
+              AND information = #{information}
             </if>
             <if test="campus != null and campus != ''">
-              AND  campus = #{campus},
+              AND  campus = #{campus}
+            </if>
+            <if test="photo != null and photo != ''">
+                AND  photo = #{photo}
             </if>
         </where>
+        order by id asc
     </select>
 
-    <select id="findAllList" resultType="com.bsc.modules.trade.entity.Trade">
+    <select id="findAllList" resultMap="getTrade">
         select * from trade order by ID desc
     </select>
 </mapper>

@@ -1,29 +1,25 @@
 package com.bsc.modules.user.service;
-
-import com.bsc.common.persistence.CrudService;
-import com.bsc.modules.user.dao.UserMapper;
-import com.bsc.modules.user.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
-/**
- * user服务类
- *
- * @Author: yuying
- * @Version: 2018/10/23
- **/
-@Service
-public class UserService extends CrudService<UserMapper, User> {
+import com.bsc.modules.login.dao.LoginMapper;
+import com.bsc.modules.user.dao.UserMapper;
+import com.bsc.modules.user.entity.User;
+import com.bsc.common.persistence.CrudService;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
+@Service
+public class UserService extends CrudService<UserMapper,User> {
     @Autowired
     private UserMapper userMapper;
 
-    @Override
+    @Override // 重写方法,根据用户id来获取整个用户实体
     public User get(int id) {
-        return super.get(id);
+        User user = userMapper.get(id);
+//        user.setUser_(userMapper.get(user.getUser_().getId()));
+        return user;
     }
+
 
     @Override
     public User getT(User entity) {
@@ -32,7 +28,11 @@ public class UserService extends CrudService<UserMapper, User> {
 
     @Override
     public List<User> findList(User entity) {
-        return super.findList(entity);
+        List<User> userList = userMapper.findList(entity);
+        for(int i = 0; i < userList.size(); i ++){
+            userList.set(i, get(userList.get(i).getId()));
+        }
+        return userList;
     }
 
     @Override
@@ -46,12 +46,15 @@ public class UserService extends CrudService<UserMapper, User> {
     }
 
     @Override
-    public int delete(int id) {
-        return super.delete(id);
-    }
+    public int delete(int id) { return super.delete(id); }
 
     @Override
     public int deleteAll(int[] ids) {
         return super.deleteAll(ids);
+    }
+
+    public User login(String str) {     //调用UserMapper里的方法,根据传递过来的账号判断该用户是否存在
+        User existUser = userMapper.getByNum(str);
+        return existUser;
     }
 }

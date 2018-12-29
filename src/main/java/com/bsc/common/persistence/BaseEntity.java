@@ -1,6 +1,6 @@
 package com.bsc.common.persistence;
 /**
- * @author yangrui
+ * @author huke
  * @version 2018/10/11
  **/
 public class BaseEntity {

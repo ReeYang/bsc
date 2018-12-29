@@ -13,7 +13,7 @@ public interface  TradeMapper extends CrudDao<Trade> {
 
     Trade getT(Trade entity);
 
-    public List<Trade> findList(Trade entity);
+    List<Trade> findList(Trade entity);
 
     List<Trade> findAllList(Trade entity);
 

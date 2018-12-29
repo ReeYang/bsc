@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.bsc.modules.dict.entity.Dict">
+    <resultMap id="getDict" type="com.bsc.modules.dict.entity.Dict">
+        <id property="id" column="id"/>
+        <result property="dict.id" column="pid"/>
+        <result property="value" column="value"/>
+        <result property="type" column="type"/>
+        <result property="label" column="label"/>
+        <result property="discription" column="discription"/>
+        <result property="sort" column="sort"/>
+    </resultMap>
+    <insert id="insert">
+        insert into student(pid, value, type,label,discription,sort)
+        values ( #{dict.id}, #{value}, #{type},#{label},#{discription},#{sort})
+    </insert>
+
+    <update id="update">
+        update dict
+        <set>
+            <if test="dict != null and dict.id != null and dict.id != ''">
+                pid = #{dict.id},
+            </if>
+            <if test="value != null and value != ''">
+                value = #{value},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="label != null and label != ''">
+                label = #{label},
+            </if>
+            <if test="discription != null and discription != ''">
+                discription = #{discription},
+            </if>
+            <if test="sort != null and sort != ''">
+                sort = #{sort},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from dict where id = #{id};
+    </delete>
+
+    <select id="get" resultMap="getDict">
+        select * from dict where id = #{id}
+    </select>
+
+    <select id="getT" resultMap="getDict">
+        select * from dict
+        <where>
+            <if test="dict != null and dict.id != null and dict.id != ''">
+              AND  pid = #{dict.id},
+            </if>
+            <if test="value != null and value != ''">
+             AND   value = #{value},
+            </if>
+            <if test="type != null and type != ''">
+              AND  type = #{type},
+            </if>
+            <if test="label != null and label != ''">
+             AND   label = #{label},
+            </if>
+            <if test="discription != null and discription != ''">
+             AND   discription = #{discription},
+            </if>
+            <if test="sort != null and sort != ''">
+                sort = #{sort},
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="findList" resultMap="getDict">
+        select * from dict
+        <where>
+            <if test="dict != null and dict.id != null and dict.id != ''">
+            AND    pid = #{dict.id},
+            </if>
+            <if test="value != null and value != ''">
+            AND    value = #{value},
+            </if>
+            <if test="type != null and type != ''">
+            AND    type = #{type},
+            </if>
+            <if test="label != null and label != ''">
+            AND    label = #{label},
+            </if>
+            <if test="discription != null and discription != ''">
+            AND    discription = #{discription},
+            </if>
+            <if test="sort != null and sort != ''">
+            AND    sort = #{sort},
+            </if>
+        </where>
+    </select>
+
+    <select id="findAllList" resultMap="getDict">
+        select * from dict order by ID desc
+    </select>
+</mapper>

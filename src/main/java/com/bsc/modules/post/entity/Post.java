@@ -2,9 +2,6 @@ package com.bsc.modules.post.entity;
 import com.bsc.common.persistence.BaseEntity;
 import com.bsc.modules.user.entity.User;
 
-
-import java.util.List;
-
 /**
  * 帖子实体
  *
@@ -15,7 +12,7 @@ public class Post extends BaseEntity {
 
   private User user;
     private String title;
-    private String type;
+    private String classify;
     private String time;
     private String content;
 
@@ -35,12 +32,12 @@ public class Post extends BaseEntity {
         this.title = title;
     }
 
-    public String getType() {
-        return type;
+    public void setClassify(String classify) {
+        this.classify = classify;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public String getClassify() {
+        return classify;
     }
 
     public String getTime() {

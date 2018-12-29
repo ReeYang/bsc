@@ -7,35 +7,30 @@
     <title>post</title>
 </head>
 <body>
-<sql:setDataSource var="bsc" driver="com.mysql.jdbc.Driver"
-                   url="jdbc:mysql://localhost:3306/bsc"
-                   user="root"  password="root"/>
-
-<sql:query dataSource="${bsc}"  var="result">
-    SELECT * from post;
-</sql:query>
-
-<table border="1">
+<c:out value="${msg}"/>
+<table align="center">
     <caption>帖子表</caption>
+    <tr aria-colspan="6"><a href="${pageContext.request.contextPath}/post/add">添加</a></tr>
     <tr>
-        <td>主键</td>
-       <td>用户ID</td>
+       <td>用户名</td>
         <td>标题</td>
         <td>类型</td>
         <td>时间</td>
         <td>内容</td>
+        <td colspan="3">操作</td>
     </tr>
     <c:forEach items="${postList}" var="post" >
         <tr>
-            <td>${post.id}</td>
-            <td>${post.user.id}</td>
+            <td>${post.user.nickName}</td>
             <td>${post.title}</td>
-            <td>${post.type}</td>
+            <td>${post.classify}</td>
             <td>${post.time}</td>
             <td>${post.content}</td>
+            <td><a href="${pageContext.request.contextPath}/post/get/${post.id}">详情</a> </td>
+            <td><a href="${pageContext.request.contextPath}/post/edit/${post.id}">修改</a></td>
+            <td><a href="${pageContext.request.contextPath}/post/del/${post.id}">删除</a> </td>
         </tr>
     </c:forEach>
-
 </table>
 </body>
 </html>

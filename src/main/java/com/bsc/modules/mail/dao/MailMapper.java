@@ -4,15 +4,16 @@ import com.bsc.common.annotation.MybatisDao;
 import com.bsc.common.persistence.CrudDao;
 import com.bsc.modules.mail.entity.Mail;
 
-import java.util.List;
-@MybatisDao
 
-public interface MailMapper extends CrudDao<Mail>{
+import java.util.List;
+
+@MybatisDao
+public interface MailMapper extends CrudDao<Mail> {
     Mail get(int id);
 
     Mail getT(Mail entity);
 
-    public List<Mail> findList(Mail entity);
+    List<Mail> findList(Mail entity);
 
     List<Mail> findAllList(Mail entity);
 
@@ -21,6 +22,5 @@ public interface MailMapper extends CrudDao<Mail>{
     int update(Mail entity);
 
     int delete(int id);
+
 }
-
-
